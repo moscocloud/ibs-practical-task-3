@@ -36,6 +36,7 @@ public class MainPage extends BasePage {
 
     @Step("Проверка наличия таблицы")
     public MainPage checkTableDisplayed() {
+        screenshot();
         table.isDisplayed();
         return this;
     }
@@ -78,6 +79,12 @@ public class MainPage extends BasePage {
     public MainPage checkButtonAdd() {
         Assertions.assertTrue(waitToBeClickable(button).isDisplayed(), "Кнопка \"Добавить\" отсутствует");
         return this;
+    }
+
+    @Step("Нажатие на кнопку \"Добавить\"")
+    public ModalWindow clickButtonAdd() {
+        waitToBeClickable(button).click();
+        return pageManager.getPage(ModalWindow.class);
     }
 
 
