@@ -49,7 +49,7 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>${junit-jupiter-api.version}</version>
-            <scope>test</scope>
+            <scope>compile</scope>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-launcher -->
@@ -81,6 +81,7 @@
             <version>${allure-java-commons.version}</version>
             <scope>compile</scope>
         </dependency>
+
 
     </dependencies>
     <build>
