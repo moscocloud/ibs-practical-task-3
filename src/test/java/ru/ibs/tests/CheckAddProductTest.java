@@ -17,7 +17,10 @@ public class CheckAddProductTest extends BaseTests {
                 .clickButtonAdd()
                 .checkModalWindowIsDisplayed()
                 .inputFieldName("Манго")
-                .waitting();
+                .inputSelectType("фрукт")
+                .inputCheckbox(true)
+                .saveProduct()
+                .checkTableRowWithParam("Манго", "Фрукт", true);
 
 
     }

@@ -27,13 +27,21 @@ public class MainPage extends BasePage {
     @FindBy(xpath = "//button[@data-toggle='modal']")
     private WebElement button;
 
-
+    /**Метод проверяет открылся ли сайт,
+     * путем проверки отображения заголовка
+     *
+     * @return MainPage
+     */
     @Step("Проверка открытия сайта по заголовку")
     public MainPage checkOpenPage() {
         title.isDisplayed();
         return this;
     }
 
+    /**Метод проверяет отображение таблицы
+     *
+     * @return MainPage
+     */
     @Step("Проверка наличия таблицы")
     public MainPage checkTableDisplayed() {
         screenshot();
@@ -41,6 +49,10 @@ public class MainPage extends BasePage {
         return this;
     }
 
+    /**Метод проверяет заголовки таблицы
+     *
+     * @return MainPage
+     */
     @Step("Проверка заголовков таблицы")
     public MainPage checkTitlesTables() {
         Assertions.assertEquals("Наименование", titleProductName.getText());
@@ -63,8 +75,8 @@ public class MainPage extends BasePage {
 
         findNameProduct(name, productNames);
 
-        String typeXpath = String.format("//td[text()='%s']/following-sibling::td[1]", name);
-        String exoticXpath = String.format("//td[text()='%s']/following-sibling::td[2]", name);
+        String typeXpath = String.format(".//td[text()='%s']/following-sibling::td[1]", name);
+        String exoticXpath = String.format(".//td[text()='%s']/following-sibling::td[2]", name);
 
         WebElement productType = table.findElement(By.xpath(typeXpath));
         WebElement productIsExotic = table.findElement(By.xpath(exoticXpath));
@@ -75,12 +87,21 @@ public class MainPage extends BasePage {
         return this;
     }
 
+    /**Метод проверяет отображение
+     *  активной кнопки добавить
+     *
+     * @return MainPage
+     */
     @Step("Проверка кнопки \"Добавить\"")
     public MainPage checkButtonAdd() {
         Assertions.assertTrue(waitToBeClickable(button).isDisplayed(), "Кнопка \"Добавить\" отсутствует");
         return this;
     }
 
+    /**Метод кликает на кнопку добавить
+     *
+     * @return ModalWindow
+     */
     @Step("Нажатие на кнопку \"Добавить\"")
     public ModalWindow clickButtonAdd() {
         waitToBeClickable(button).click();
