@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import ru.ibs.framework.pages.MainPage;
 import ru.ibs.tests.base.BaseTests;
 
+import static ru.ibs.framework.utils.Product.TOMATO;
+
 public class CheckProductDisplayTest extends BaseTests {
 
     @Test
@@ -15,7 +17,7 @@ public class CheckProductDisplayTest extends BaseTests {
         pageManager.getPage(MainPage.class)
                 .checkTableDisplayed()
                 .checkTitlesTables()
-                .checkTableRowWithParam("Помидор", "Овощ", false)
+                .checkTableRowWithParam(TOMATO.getName(), TOMATO.getType(), TOMATO.isExotic())
                 .checkButtonAdd();
     }
 }

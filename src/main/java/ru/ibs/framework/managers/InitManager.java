@@ -11,7 +11,7 @@ public class InitManager {
 
 
     /**
-     * Открытие браузера, установка ожидания, раскрытие на полный экран
+     * Раскрытие окна браузера на полный экран, установка ожидания
      */
     public static void initFrame() {
         driverManager.getDriver().manage().window().maximize();

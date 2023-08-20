@@ -38,22 +38,22 @@ public class MainPage extends BasePage {
         return this;
     }
 
-    /**Метод проверяет отображение таблицы
+    /**Метод проверяет отображение таблицы товаров
      *
      * @return MainPage
      */
-    @Step("Проверка наличия таблицы")
+    @Step("Проверка наличия таблицы товаров")
     public MainPage checkTableDisplayed() {
         screenshot();
         table.isDisplayed();
         return this;
     }
 
-    /**Метод проверяет заголовки таблицы
+    /**Метод проверяет заголовки таблицы товаров
      *
      * @return MainPage
      */
-    @Step("Проверка заголовков таблицы")
+    @Step("Проверка заголовков таблицы товаров")
     public MainPage checkTitlesTables() {
         Assertions.assertEquals("Наименование", titleProductName.getText());
         Assertions.assertEquals("Тип", titleProductType.getText());

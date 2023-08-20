@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import ru.ibs.framework.pages.MainPage;
 import ru.ibs.tests.base.BaseTests;
 
+import static ru.ibs.framework.utils.Product.MANGO;
+
 public class CheckAddProductTest extends BaseTests {
 
     @Test
@@ -16,12 +18,10 @@ public class CheckAddProductTest extends BaseTests {
                 .checkOpenPage()
                 .clickButtonAdd()
                 .checkModalWindowIsDisplayed()
-                .inputFieldName("Манго")
-                .inputSelectType("фрукт")
-                .inputCheckbox(true)
+                .inputFieldName(MANGO.getName())
+                .inputSelectType(MANGO.getType())
+                .inputCheckbox(MANGO.isExotic())
                 .saveProduct()
-                .checkTableRowWithParam("Манго", "Фрукт", true);
-
-
+                .checkTableRowWithParam(MANGO.getName(),MANGO.getType(),MANGO.isExotic());
     }
 }

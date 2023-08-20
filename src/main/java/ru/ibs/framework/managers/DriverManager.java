@@ -9,7 +9,7 @@ public class DriverManager {
     private static DriverManager INSTANCE = null;
 
     /**
-     * Проверка инициализации Дравер менаджера чтобы не создавать его повторно
+     * Проверка инициализации Дравер менаджера
      */
     public static DriverManager getInstance() {
         if (INSTANCE == null) {
@@ -19,7 +19,7 @@ public class DriverManager {
     }
 
     /**
-     * Проверка уже инициализированого драйвера, чтобы не создавать его еще раз
+     * Проверка уже инициализированого драйвера
      */
     public WebDriver getDriver() {
         if (driver == null) {

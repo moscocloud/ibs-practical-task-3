@@ -103,7 +103,7 @@ public class ModalWindow extends BasePage {
      * <p>
      * По-хорошему следует проверить что чекбокс
      * становится активным после нажатия, но в данной реализации
-     * сайта, не нашел изменения в HTML после нажатия на Select
+     * сайта, не нашел изменения в HTML после нажатия на Checkbox
      *
      * @param isCheckboxActive значение ЧекБокса
      * @return ModalWindow
