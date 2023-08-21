@@ -39,7 +39,7 @@ public class BasePage {
                 return;
             }
         }
-        Assertions.fail("Элемент не найден");
+        Assertions.fail(String.format("Элемент %s не найден", name));
     }
 
     /** Метод добавляет ожидание до момента пока

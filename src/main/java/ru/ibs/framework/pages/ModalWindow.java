@@ -42,12 +42,17 @@ public class ModalWindow extends BasePage {
     @Step("Проверка открытия и содержания модального окна")
     public ModalWindow checkModalWindowIsDisplayed() {
         waitStabilityPage(5000,500);
-        Assertions.assertTrue(modalWindow.isDisplayed());
-        Assertions.assertEquals("Добавление товара", modalTitle.getText());
-        Assertions.assertEquals("Наименование", labelName.getText());
-        Assertions.assertEquals("Тип", labelType.getText());
-        Assertions.assertEquals("Экзотический", labelExotic.getText());
-        Assertions.assertEquals("Сохранить", saveButton.getText());
+        Assertions.assertTrue(modalWindow.isDisplayed(), "Модальное окно не найдено");
+        Assertions.assertEquals("Добавление товара", modalTitle.getText(),
+                "Заголовок \"Добавление товара\" не найден");
+        Assertions.assertEquals("Наименование", labelName.getText(),
+                "Заголовок \"Наименование\" не найден");
+        Assertions.assertEquals("Тип", labelType.getText(),
+                "Заголовок \"Тип\" не найден");
+        Assertions.assertEquals("Экзотический", labelExotic.getText(),
+                "Заголовок чекбокса \"Экзотический\" не найден");
+        Assertions.assertEquals("Сохранить", saveButton.getText(),
+                "Кнопка \"Сохранить\" не найдена");
         screenshot();
         return this;
     }

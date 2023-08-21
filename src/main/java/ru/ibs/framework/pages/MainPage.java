@@ -55,9 +55,12 @@ public class MainPage extends BasePage {
      */
     @Step("Проверка заголовков таблицы товаров")
     public MainPage checkTitlesTables() {
-        Assertions.assertEquals("Наименование", titleProductName.getText());
-        Assertions.assertEquals("Тип", titleProductType.getText());
-        Assertions.assertEquals("Экзотический", titleIsProductExotic.getText());
+        Assertions.assertEquals("Наименование", titleProductName.getText(),
+                "Заголовок таблицы \"Наименование\" не найден");
+        Assertions.assertEquals("Тип", titleProductType.getText(),
+                "Заголовок таблицы \"Тип\" не найден");
+        Assertions.assertEquals("Экзотический", titleIsProductExotic.getText(),
+                "Заголовок таблицы \"Экзотический\" не найден");
         return this;
     }
 
@@ -81,8 +84,10 @@ public class MainPage extends BasePage {
         WebElement productType = table.findElement(By.xpath(typeXpath));
         WebElement productIsExotic = table.findElement(By.xpath(exoticXpath));
 
-        Assertions.assertEquals(type, productType.getText());
-        Assertions.assertEquals(exotic.toString(), productIsExotic.getText());
+        Assertions.assertEquals(type, productType.getText(),
+                String.format("Тип %s у элимента %s не найден", type, name));
+        Assertions.assertEquals(exotic.toString(), productIsExotic.getText(),
+                String.format("Параметр \"Экзотический\" = %s у элимента %s не найден",exotic, name));
 
         return this;
     }
