@@ -27,7 +27,8 @@ public class MainPage extends BasePage {
     @FindBy(xpath = "//button[@data-toggle='modal']")
     private WebElement button;
 
-    /**Метод проверяет открылся ли сайт,
+    /**
+     * Метод проверяет открылся ли сайт,
      * путем проверки отображения заголовка
      *
      * @return MainPage
@@ -38,7 +39,8 @@ public class MainPage extends BasePage {
         return this;
     }
 
-    /**Метод проверяет отображение таблицы товаров
+    /**
+     * Метод проверяет отображение таблицы товаров
      *
      * @return MainPage
      */
@@ -49,18 +51,21 @@ public class MainPage extends BasePage {
         return this;
     }
 
-    /**Метод проверяет заголовки таблицы товаров
+    /**
+     * Метод проверяет заголовки таблицы товаров
      *
      * @return MainPage
      */
     @Step("Проверка заголовков таблицы товаров")
     public MainPage checkTitlesTables() {
-        Assertions.assertEquals("Наименование", titleProductName.getText(),
-                "Заголовок таблицы \"Наименование\" не найден");
-        Assertions.assertEquals("Тип", titleProductType.getText(),
-                "Заголовок таблицы \"Тип\" не найден");
-        Assertions.assertEquals("Экзотический", titleIsProductExotic.getText(),
-                "Заголовок таблицы \"Экзотический\" не найден");
+        Assertions.assertAll(
+                () -> Assertions.assertEquals("Наименование", titleProductName.getText(),
+                        "Заголовок таблицы \"Наименование\" не найден"),
+                () -> Assertions.assertEquals("Тип", titleProductType.getText(),
+                        "Заголовок таблицы \"Тип\" не найден"),
+                () -> Assertions.assertEquals("Экзотический", titleIsProductExotic.getText(),
+                        "Заголовок таблицы \"Экзотический\" не найден")
+        );
         return this;
     }
 
@@ -76,6 +81,8 @@ public class MainPage extends BasePage {
     @Step("Проверка строки таблицы с параметрами: Наименование:\"{name}\", тип:\"{type}\", экзотический: \"{exotic}\"")
     public MainPage checkTableRowWithParam(String name, String type, Boolean exotic) {
 
+        waitStabilityPage(3000,1000);
+
         findNameProduct(name, productNames);
 
         String typeXpath = String.format(".//td[text()='%s']/following-sibling::td[1]", name);
@@ -83,17 +90,18 @@ public class MainPage extends BasePage {
 
         WebElement productType = table.findElement(By.xpath(typeXpath));
         WebElement productIsExotic = table.findElement(By.xpath(exoticXpath));
-
-        Assertions.assertEquals(type, productType.getText(),
-                String.format("Тип %s у элимента %s не найден", type, name));
-        Assertions.assertEquals(exotic.toString(), productIsExotic.getText(),
-                String.format("Параметр \"Экзотический\" = %s у элимента %s не найден",exotic, name));
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(type, productType.getText(),
+                        String.format("Тип %s у элимента %s не найден", type, name)),
+                () -> Assertions.assertEquals(exotic.toString(), productIsExotic.getText(),
+                        String.format("Параметр \"Экзотический\" = %s у элимента %s не найден", exotic, name)));
 
         return this;
     }
 
-    /**Метод проверяет отображение
-     *  активной кнопки добавить
+    /**
+     * Метод проверяет отображение
+     * активной кнопки добавить
      *
      * @return MainPage
      */
@@ -103,7 +111,8 @@ public class MainPage extends BasePage {
         return this;
     }
 
-    /**Метод кликает на кнопку добавить
+    /**
+     * Метод кликает на кнопку добавить
      *
      * @return ModalWindow
      */
