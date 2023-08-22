@@ -1,6 +1,7 @@
 package ru.ibs.framework.pages;
 
 import io.qameta.allure.Step;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -8,6 +9,7 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
+@Slf4j
 public class MainPage extends BasePage {
     @FindBy(xpath = "//div[@class='container-fluid']/h5")
     private WebElement title;
@@ -35,6 +37,8 @@ public class MainPage extends BasePage {
      */
     @Step("Проверка открытия сайта по заголовку")
     public MainPage checkOpenPage() {
+        log.info("Проверка открытия сайта по заголовку");
+
         title.isDisplayed();
         return this;
     }
@@ -46,6 +50,8 @@ public class MainPage extends BasePage {
      */
     @Step("Проверка наличия таблицы товаров")
     public MainPage checkTableDisplayed() {
+        log.info("Проверка наличия таблицы товаров");
+
         screenshot();
         table.isDisplayed();
         return this;
@@ -58,6 +64,8 @@ public class MainPage extends BasePage {
      */
     @Step("Проверка заголовков таблицы товаров")
     public MainPage checkTitlesTables() {
+        log.info("Проверка заголовков таблицы товаров");
+
         Assertions.assertAll(
                 () -> Assertions.assertEquals("Наименование", titleProductName.getText(),
                         "Заголовок таблицы \"Наименование\" не найден"),
@@ -78,8 +86,10 @@ public class MainPage extends BasePage {
      * @param exotic - Экзотический продукт или нет
      * @return MainPage
      */
-    @Step("Проверка строки таблицы с параметрами: Наименование:\"{name}\", тип:\"{type}\", экзотический: \"{exotic}\"")
+    @Step("Проверка строки таблицы с параметрами: Наименование: \"{name}\", тип: \"{type}\", экзотический: \"{exotic}\"")
     public MainPage checkTableRowWithParam(String name, String type, Boolean exotic) {
+        log.info(String.format("Проверка строки таблицы с параметрами: " +
+                "Наименование:\"%s\", тип:\"%s\", экзотический: \"%s\"", name, type, exotic));
 
         waitStabilityPage(3000,1000);
 
@@ -107,6 +117,8 @@ public class MainPage extends BasePage {
      */
     @Step("Проверка кнопки \"Добавить\"")
     public MainPage checkButtonAdd() {
+        log.info("Проверка кнопки \"Добавить\"");
+
         Assertions.assertTrue(waitToBeClickable(button).isDisplayed(), "Кнопка \"Добавить\" отсутствует");
         return this;
     }
@@ -118,6 +130,8 @@ public class MainPage extends BasePage {
      */
     @Step("Нажатие на кнопку \"Добавить\"")
     public ModalWindow clickButtonAdd() {
+        log.info("Нажатие на кнопку \"Добавить\"");
+
         waitToBeClickable(button).click();
         return pageManager.getPage(ModalWindow.class);
     }

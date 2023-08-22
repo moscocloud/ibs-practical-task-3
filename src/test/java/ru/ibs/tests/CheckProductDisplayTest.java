@@ -15,6 +15,7 @@ public class CheckProductDisplayTest extends BaseTests {
     @DisplayName("Проверка валидации отображения товаров в списке")
     public void checkProductDisplayed() {
         pageManager.getPage(MainPage.class)
+                .checkOpenPage()
                 .checkTableDisplayed()
                 .checkTitlesTables()
                 .checkTableRowWithParam(TOMATO.getName(), TOMATO.getType(), TOMATO.isExotic())

@@ -1,11 +1,13 @@
 package ru.ibs.framework.pages;
 
 import io.qameta.allure.Step;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+@Slf4j
 public class ModalWindow extends BasePage {
     @FindBy(xpath = "//div[@class='modal-content']")
     private WebElement modalWindow;
@@ -41,6 +43,8 @@ public class ModalWindow extends BasePage {
      */
     @Step("Проверка открытия и содержания модального окна")
     public ModalWindow checkModalWindowIsDisplayed() {
+        log.info("Проверка открытия и содержания модального окна");
+
         waitStabilityPage(5000, 500);
         Assertions.assertAll("Checked modal",
                 () -> Assertions.assertTrue(modalWindow.isDisplayed(), "Модальное окно не найдено"),
@@ -70,6 +74,8 @@ public class ModalWindow extends BasePage {
      */
     @Step("Ввод в поле наименование значения \"{productName}\"")
     public ModalWindow inputFieldName(String productName) {
+        log.info(String.format("Ввод в поле наименование значения \"%s\"",productName));
+
         fieldName.sendKeys(productName);
         return this;
     }
@@ -86,12 +92,12 @@ public class ModalWindow extends BasePage {
      */
     @Step("Выбор типа \"{typeName}\"")
     public ModalWindow inputSelectType(String typeName) {
+        log.info(String.format("Выбор типа \"%s\"", typeName));
 
         typeName = typeName.substring(0, 1).toUpperCase() +
                 typeName.substring(1).toLowerCase();
 
         String optionSelect = String.format("./option[text()='%s']", typeName);
-
 
         if (typeName.matches("Овощ|Фрукт")) {
             selectType.click();
@@ -114,8 +120,10 @@ public class ModalWindow extends BasePage {
      * @param isCheckboxActive значение ЧекБокса
      * @return ModalWindow
      */
-    @Step("Выбор значения чекбокса \"{checkboxStatus}\"")
+    @Step("Выбор значения чекбокса \"{isCheckboxActive}\"")
     public ModalWindow inputCheckbox(boolean isCheckboxActive) {
+        log.info(String.format("Выбор значения чекбокса \"%s\"",isCheckboxActive));
+
         if (isCheckboxActive == true) {
             checkbox.click();
             return this;
@@ -131,6 +139,8 @@ public class ModalWindow extends BasePage {
      */
     @Step("Сохранение продукта")
     public MainPage saveProduct() {
+        log.info("Сохранение продукта");
+
         waitToBeClickable(saveButton).click();
         return pageManager.getPage(MainPage.class);
     }
