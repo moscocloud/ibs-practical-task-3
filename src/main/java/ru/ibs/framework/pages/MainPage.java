@@ -13,10 +13,8 @@ import java.util.List;
 public class MainPage extends BasePage {
     @FindBy(xpath = "//div[@class='container-fluid']/h5")
     private WebElement title;
-
     @FindBy(xpath = "//table[@class='table']")
     private WebElement table;
-
     @FindBy(xpath = "//th[2]")
     private WebElement titleProductName;
     @FindBy(xpath = "//th[3]")
@@ -25,7 +23,6 @@ public class MainPage extends BasePage {
     private WebElement titleIsProductExotic;
     @FindBy(xpath = "//td[1]")
     private List<WebElement> productNames;
-
     @FindBy(xpath = "//button[@data-toggle='modal']")
     private WebElement button;
 
@@ -39,7 +36,7 @@ public class MainPage extends BasePage {
     public MainPage checkOpenPage() {
         log.info("Проверка открытия сайта по заголовку");
 
-        title.isDisplayed();
+        Assertions.assertTrue(title.isDisplayed(), "Заголовок таблицы не найден");
         return this;
     }
 
@@ -53,7 +50,7 @@ public class MainPage extends BasePage {
         log.info("Проверка наличия таблицы товаров");
 
         screenshot();
-        table.isDisplayed();
+        Assertions.assertTrue(table.isDisplayed(), "Таблица не найден");
         return this;
     }
 

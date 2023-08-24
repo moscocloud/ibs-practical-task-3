@@ -1,18 +1,20 @@
 package ru.ibs.framework.utils;
 
 public enum Product {
-    TOMATO("Помидор", "Овощ", false),
-    MANGO("Манго", "Фрукт", true),
-    CUCUMBER("Огурец","Овощ",false);
+    TOMATO("Помидор", "Овощ", false, "VEGETABLE"),
+    MANGO("Манго", "Фрукт", true, "FRUIT"),
+    CUCUMBER("Огурец","Овощ",false, "VEGETABLE");
 
     private String name;
     private String type;
     private boolean exotic;
+    private String typeForAPI;
 
-    Product(String name, String type, boolean exotic) {
+    Product(String name, String type, boolean exotic, String typeForAPI) {
         this.name = name;
         this.type = type;
         this.exotic = exotic;
+        this.typeForAPI = typeForAPI;
     }
 
     public String getName() {
@@ -25,5 +27,16 @@ public enum Product {
 
     public boolean isExotic() {
         return exotic;
+    }
+
+    public String getTypeForAPI() {return typeForAPI;}
+
+    @Override
+    public String toString() {
+        return "Product {" +
+                "name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", exotic=" + exotic +
+                '}';
     }
 }
