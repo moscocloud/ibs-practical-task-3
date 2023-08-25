@@ -19,5 +19,6 @@ public class CheckAddProductAPITest extends BaseTestAPI {
         sendPost(MANGO);
         List<ProductDTO> products = getProductList();
         checkingTableRows(products, MANGO);
+        resetDataBase();
     }
 }

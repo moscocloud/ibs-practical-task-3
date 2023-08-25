@@ -55,6 +55,12 @@ public class BaseTestAPI {
                 .post("/api/food");
     }
 
+    @Step("Сброс тестовых данных")
+    protected void resetDataBase() {
+        given()
+                .when()
+                .post("/api/data/reset");
+    }
     /**
      * Метод проверяет конкректную строку с параметрами,
      * в таблице
