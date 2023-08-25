@@ -18,7 +18,7 @@ public class CheckProductDisplayTest extends BaseTests {
                 .checkOpenPage()
                 .checkTableDisplayed()
                 .checkTitlesTables()
-                .checkTableRowWithParam(TOMATO.getName(), TOMATO.getType(), TOMATO.isExotic())
+                .checkTableRowWithParam(TOMATO)
                 .checkButtonAdd();
     }
 }

@@ -18,10 +18,8 @@ public class CheckAddProductTest extends BaseTests {
                 .checkOpenPage()
                 .clickButtonAdd()
                 .checkModalWindowIsDisplayed()
-                .inputFieldName(MANGO.getName())
-                .inputSelectType(MANGO.getType())
-                .inputCheckbox(MANGO.isExotic())
+                .fillFieldsProduct(MANGO)
                 .saveProduct()
-                .checkTableRowWithParam(MANGO.getName(),MANGO.getType(),MANGO.isExotic());
+                .checkTableRowWithParam(MANGO);
     }
 }

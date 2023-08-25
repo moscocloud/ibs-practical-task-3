@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import ru.ibs.framework.utils.Product;
 
 @Slf4j
 public class ModalWindow extends BasePage {
@@ -63,46 +64,64 @@ public class ModalWindow extends BasePage {
     }
 
     /**
-     * Метод вводит значение в поле Наименование
-     * <p>
-     * По-хорошему следует проверить правильное заполнение полей
-     * но в данной реализации сайта, не нашел изменения в HTML
-     * во время ввода
+     * Метод совмещает методы по вводу полей: Наименование
+     * Тип, экзотический.
      *
-     * @param productName - значение для ввода
+     * @param product - Продукт
      * @return ModalWindow
      */
-    @Step("Ввод в поле наименование значения \"{productName}\"")
-    public ModalWindow inputFieldName(String productName) {
-        log.info(String.format("Ввод в поле наименование значения \"%s\"",productName));
+    public ModalWindow fillFieldsProduct(Product product) {
+        inputFieldName(product.getName());
+        choiceType(product.getType(), product.getTypeForAPI());
+        inputCheckbox(product.isExotic());
+        return this;
+    }
 
-        fieldName.sendKeys(productName);
+    /**
+     * Метод вводит значение в поле Наименование
+     * <p>
+     *
+     * @param name - наименование продукта
+     * @return ModalWindow
+     */
+    @Step("Ввод в поле наименование \"{name}\"")
+    public ModalWindow inputFieldName(String name) {
+        log.info(String.format("Ввод в поле наименование значения \"%s\"", name));
+
+        fieldName.sendKeys(name);
+        Assertions.assertEquals(fieldName.getAttribute("value"), name,
+                "Элемент несоответствует введенному значению");
         return this;
     }
 
     /**
      * Метод выбирает тип продукта.
+     * Первый клик раскрывает дропдаун.
+     * Потом находится тип переданный в метод и
+     * второй клик происходит с выборо данного элемента
      * <p>
-     * По-хорошему следует проверить появление выпадающего
-     * списка после нажатия на select, но в данной реализации сайта,
-     * не нашел изменения в HTML после нажатия на Select
      *
-     * @param typeName название типа продукта
+     * @param type тип продукта
      * @return ModalWindow
      */
-    @Step("Выбор типа \"{typeName}\"")
-    public ModalWindow inputSelectType(String typeName) {
-        log.info(String.format("Выбор типа \"%s\"", typeName));
+    @Step("Выбор типа из данных \"{type}\"")
+    public ModalWindow choiceType(String type, String typeAPI) {
+        log.info(String.format("Выбор типа \"%s\"", type));
 
-        typeName = typeName.substring(0, 1).toUpperCase() +
-                typeName.substring(1).toLowerCase();
+        String typeName = type.substring(0, 1).toUpperCase() +
+                type.substring(1).toLowerCase();
 
         String optionSelect = String.format("./option[text()='%s']", typeName);
 
         if (typeName.matches("Овощ|Фрукт")) {
             selectType.click();
             selectType.findElement(By.xpath(optionSelect)).click();
+
+            Assertions.assertEquals(selectType.getAttribute("value"), typeAPI,
+                    "Элемент несоответствует введенному значению");
+
             return this;
+
         } else {
             Assertions.fail("Данный тип продуктов не найден");
             return this;
@@ -113,21 +132,20 @@ public class ModalWindow extends BasePage {
      * Метод выбирает чекбокс в зависимости
      * от переданных параметров
      * <p>
-     * По-хорошему следует проверить что чекбокс
-     * становится активным после нажатия, но в данной реализации
-     * сайта, не нашел изменения в HTML после нажатия на Checkbox
      *
-     * @param isCheckboxActive значение ЧекБокса
+     * @param isExotic значение чекбокса true/false
      * @return ModalWindow
      */
-    @Step("Выбор значения чекбокса \"{isCheckboxActive}\"")
-    public ModalWindow inputCheckbox(boolean isCheckboxActive) {
-        log.info(String.format("Выбор значения чекбокса \"%s\"",isCheckboxActive));
+    @Step("Выбор значения чекбокса из данных \"{isExotic}\"")
+    public ModalWindow inputCheckbox(boolean isExotic) {
+        log.info(String.format("Выбор значения чекбокса \"%s\"", isExotic));
 
-        if (isCheckboxActive == true) {
+        if (isExotic) {
             checkbox.click();
+            Assertions.assertTrue(Boolean.parseBoolean(checkbox.getAttribute("checked")));
             return this;
         } else {
+            Assertions.assertFalse(Boolean.parseBoolean(checkbox.getAttribute("checked")));
             return this;
         }
     }

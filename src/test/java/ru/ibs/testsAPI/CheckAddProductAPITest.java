@@ -10,7 +10,7 @@ import java.util.List;
 
 import static ru.ibs.framework.utils.Product.MANGO;
 
-public class CheckAddProductTest extends BaseTestAPI {
+public class CheckAddProductAPITest extends BaseTestAPI {
 
     @Test
     @Tag("@ТС-003")

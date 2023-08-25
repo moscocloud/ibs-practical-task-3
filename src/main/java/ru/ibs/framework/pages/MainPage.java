@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import ru.ibs.framework.utils.Product;
 
 import java.util.List;
 
@@ -78,17 +79,19 @@ public class MainPage extends BasePage {
      * Метод проверяет конкректную строку с параметрами,
      * внутри использует метод #findNameProduct
      *
-     * @param name   - Наименование продукта
-     * @param type   - Тип продукта
-     * @param exotic - Экзотический продукт или нет
+     * @param product - Продукт
      * @return MainPage
      */
-    @Step("Проверка строки таблицы с параметрами: Наименование: \"{name}\", тип: \"{type}\", экзотический: \"{exotic}\"")
-    public MainPage checkTableRowWithParam(String name, String type, Boolean exotic) {
+    @Step("Проверка строки таблицы с параметрами: \"{product}\"")
+    public MainPage checkTableRowWithParam(Product product) {
+        String name = product.getName();
+        String type = product.getType();
+        String exotic = String.valueOf(product.isExotic());
+
         log.info(String.format("Проверка строки таблицы с параметрами: " +
                 "Наименование:\"%s\", тип:\"%s\", экзотический: \"%s\"", name, type, exotic));
 
-        waitStabilityPage(3000,1000);
+        waitStabilityPage(3000, 1000);
 
         findNameProduct(name, productNames);
 
