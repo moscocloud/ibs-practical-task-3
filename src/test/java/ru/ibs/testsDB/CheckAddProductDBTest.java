@@ -12,28 +12,27 @@ import java.sql.SQLException;
 import java.util.List;
 
 import static ru.ibs.framework.utils.Product.MANGO;
+import static ru.ibs.testsDB.sql.Query.*;
 
 @Slf4j
 public class CheckAddProductDBTest extends BaseTestsDB {
 
     @Test
     @Tag("@ТС-005")
-    @DisplayName("Проверка товаров через API")
+    @DisplayName("Проверка товаров в DB")
     public void checkAddProductDBTest() throws SQLException {
         createConnectionDB();
 
-        ResultSet respOnSelectQuery = sendingSelectSQLQuery("SELECT * FROM FOOD");
-
+        ResultSet respOnSelectQuery = sendingSelectSQLQuery(SELECT_QUERY);
         List<ProductData> products = getDataFromResp(respOnSelectQuery);
+        checkRespIsNotEmpty(products);
 
-        sendingSQLQuery("INSERT INTO FOOD VALUES(5, 'Манго', 'FRUIT', 1)");
-
-        ResultSet respOnSelectBeforeInsert = sendingSelectSQLQuery("SELECT * FROM FOOD");
-
+        sendingSQLQuery(INSERT_QUERY);
+        ResultSet respOnSelectBeforeInsert = sendingSelectSQLQuery(SELECT_QUERY);
         List<ProductData> productsBeforeInsert = getDataFromResp(respOnSelectBeforeInsert);
-
         checkingTableRows(productsBeforeInsert, MANGO);
 
+        sendingSQLQuery(DELETE_QUERY);
     }
 
 }

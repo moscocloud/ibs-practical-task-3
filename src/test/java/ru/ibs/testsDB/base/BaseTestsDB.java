@@ -35,7 +35,6 @@ public class BaseTestsDB {
 
     @AfterAll
     public static void closeConnection() throws SQLException {
-        sendingSQLQuery("DELETE FROM FOOD WHERE FOOD_NAME = 'Манго'");
         connection.close();
     }
 
@@ -62,7 +61,7 @@ public class BaseTestsDB {
      */
     @Step("Отправка SELECT SQL запроса в БД")
     protected static ResultSet sendingSelectSQLQuery(String sqlQuery) {
-        log.info(String.format("Отправка запроса \"%s\" в базу данных" , sqlQuery));
+        log.info(String.format("Отправка запроса \"%s\" в базу данных", sqlQuery));
         try {
             return connection.createStatement().executeQuery(sqlQuery);
         } catch (SQLException e) {
@@ -70,9 +69,14 @@ public class BaseTestsDB {
         }
     }
 
+    @Step("Проверка что ответ не пустой")
+    protected static void checkRespIsNotEmpty(List<ProductData> productList) {
+        Assertions.assertFalse(productList.isEmpty());
+    }
+
     @Step("Отправка INSERT SQL запроса в БД")
     protected static boolean sendingSQLQuery(String sqlQuery) {
-        log.info(String.format("Отправка запроса \"%s\" в базу данных" , sqlQuery));
+        log.info(String.format("Отправка запроса \"%s\" в базу данных", sqlQuery));
         try {
             return connection.createStatement().execute(sqlQuery);
         } catch (SQLException e) {
@@ -108,6 +112,14 @@ public class BaseTestsDB {
             throw new RuntimeException();
         }
     }
+
+    /**
+     * Метод переберает лист и проверяет есть ли искомая строка в
+     * списке
+     *
+     * @param productList     список продуктов
+     * @param expectedProduct искомая строка
+     */
     @Step("Проверка строки с параметрами {expectedProduct}")
     protected static void checkingTableRows(List<ProductData> productList, Product expectedProduct) {
         log.info(String.format("Проверка строки с параметрами %s", expectedProduct.toString()));
