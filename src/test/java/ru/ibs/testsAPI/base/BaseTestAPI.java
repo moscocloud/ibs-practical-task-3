@@ -5,7 +5,7 @@ import io.restassured.response.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
-import ru.ibs.framework.data.ProductDTO;
+import ru.ibs.framework.data.ProductData;
 import ru.ibs.framework.utils.Product;
 
 import java.util.List;
@@ -25,10 +25,10 @@ public class BaseTestAPI {
     /**
      * Метод отправляет запрос и возвращает лист продуктов
      *
-     * @return List<ProductDTO>
+     * @return List<ProductData>
      */
     @Step("Получение списка продуктов")
-    protected List<ProductDTO> getProductList() {
+    protected List<ProductData> getProductList() {
         log.info("Получение списка продуктов");
 
         return given()
@@ -38,7 +38,7 @@ public class BaseTestAPI {
                 .extract()
                 .response()
                 .jsonPath()
-                .getList(".", ProductDTO.class);
+                .getList(".", ProductData.class);
     }
 
     /**Метод отправляет пост запрос с телом product
@@ -69,7 +69,7 @@ public class BaseTestAPI {
      * @param expectedProduct - искомый продукт
      */
     @Step("Проверка строки с параметрами {expectedProduct}")
-    public static void checkingTableRows(List<ProductDTO> productList, Product expectedProduct) {
+    protected static void checkingTableRows(List<ProductData> productList, Product expectedProduct) {
         log.info(String.format("Проверка строки с параметрами %s", expectedProduct.toString()));
 
         Assertions.assertTrue(productList.stream().anyMatch(

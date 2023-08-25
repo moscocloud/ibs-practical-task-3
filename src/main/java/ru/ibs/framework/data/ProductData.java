@@ -1,0 +1,20 @@
+package ru.ibs.framework.data;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
+
+@Data
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class ProductData<T>{
+    String name;
+    String type;
+    T exotic;
+
+    public ProductData() {}
+
+    public ProductData(String name, String type, T exotic) {
+        this.name = name;
+        this.type = type;
+        this.exotic = (T) exotic;
+    }
+}

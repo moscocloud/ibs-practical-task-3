@@ -142,10 +142,12 @@ public class ModalWindow extends BasePage {
 
         if (isExotic) {
             checkbox.click();
-            Assertions.assertTrue(Boolean.parseBoolean(checkbox.getAttribute("checked")));
+            Assertions.assertTrue(Boolean.parseBoolean(checkbox.getAttribute("checked")),
+                    "Чекбокс выбран неверно");
             return this;
         } else {
-            Assertions.assertFalse(Boolean.parseBoolean(checkbox.getAttribute("checked")));
+            Assertions.assertFalse(Boolean.parseBoolean(checkbox.getAttribute("checked")),
+                    "Чекбокс выбран неверно");
             return this;
         }
     }

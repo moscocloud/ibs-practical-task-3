@@ -23,6 +23,7 @@ public class Specification {
      * @return куки
      */
     public static Cookies getCookies() {
+        log.info("Получение куки");
         return given()
                 .when()
                 .get("/api/food")
