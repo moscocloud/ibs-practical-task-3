@@ -53,6 +53,22 @@ public class BaseTestsDB {
         }
     }
 
+
+    /**
+     * Метод отправляет запрост, после преобразует
+     * полученные данные в лист данных типа ProductData
+     * и проверяет что лист данных не пустой
+     * @param sqlQuery - запрос
+     * @return Лист данных
+     */
+    protected static List<ProductData> requestTransformationCheck(String sqlQuery) {
+        ResultSet response = sendingSelectSQLQuery(sqlQuery);
+        List<ProductData> products = getDataFromResp(response);
+        checkRespIsNotEmpty(products);
+        return products;
+}
+
+
     /**
      * Метод отправляет SELECT SQL запрос в базу данных
      *
@@ -64,21 +80,6 @@ public class BaseTestsDB {
         log.info(String.format("Отправка запроса \"%s\" в базу данных", sqlQuery));
         try {
             return connection.createStatement().executeQuery(sqlQuery);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Step("Проверка что ответ не пустой")
-    protected static void checkRespIsNotEmpty(List<ProductData> productList) {
-        Assertions.assertFalse(productList.isEmpty());
-    }
-
-    @Step("Отправка INSERT SQL запроса в БД")
-    protected static boolean sendingSQLQuery(String sqlQuery) {
-        log.info(String.format("Отправка запроса \"%s\" в базу данных", sqlQuery));
-        try {
-            return connection.createStatement().execute(sqlQuery);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -106,10 +107,33 @@ public class BaseTestsDB {
                         resultSet.getBoolean("FOOD_EXOTIC")));
             }
             log.info("Данные преобразованы");
+
+                    log.info(String.format("Полученные данные: %s", productList.toString() ));
+
+
             return productList;
         } catch (SQLException e) {
             log.info("Ошибка преобразования");
             throw new RuntimeException();
+        }
+    }
+
+    /**Метод проверяет данные полученные в ответе не пустые
+     *
+     * @param productList - получечнные в ответе данные
+     */
+    @Step("Проверка что ответ не пустой")
+    protected static void checkRespIsNotEmpty(List<ProductData> productList) {
+        Assertions.assertFalse(productList.isEmpty());
+    }
+
+    @Step("Отправка INSERT SQL запроса в БД")
+    protected static boolean sendingSQLQuery(String sqlQuery) {
+        log.info(String.format("Отправка запроса \"%s\" в базу данных", sqlQuery));
+        try {
+            return connection.createStatement().execute(sqlQuery);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 

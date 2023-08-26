@@ -17,4 +17,11 @@ public class ProductData<T>{
         this.type = type;
         this.exotic = (T) exotic;
     }
+
+    @Override
+    public String toString() {
+        return  '\n' + "name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", exotic=" + exotic;
+    }
 }

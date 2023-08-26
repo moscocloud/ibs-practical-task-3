@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import ru.ibs.framework.data.ProductData;
 import ru.ibs.testsDB.base.BaseTestsDB;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -22,16 +21,10 @@ public class CheckAddProductDBTest extends BaseTestsDB {
     @DisplayName("Проверка товаров в DB")
     public void checkAddProductDBTest() throws SQLException {
         createConnectionDB();
-
-        ResultSet respOnSelectQuery = sendingSelectSQLQuery(SELECT_QUERY);
-        List<ProductData> products = getDataFromResp(respOnSelectQuery);
-        checkRespIsNotEmpty(products);
-
+        requestTransformationCheck(SELECT_QUERY);
         sendingSQLQuery(INSERT_QUERY);
-        ResultSet respOnSelectBeforeInsert = sendingSelectSQLQuery(SELECT_QUERY);
-        List<ProductData> productsBeforeInsert = getDataFromResp(respOnSelectBeforeInsert);
-        checkingTableRows(productsBeforeInsert, MANGO);
-
+        List<ProductData> products = requestTransformationCheck(SELECT_QUERY);
+        checkingTableRows(products, MANGO);
         sendingSQLQuery(DELETE_QUERY);
     }
 
