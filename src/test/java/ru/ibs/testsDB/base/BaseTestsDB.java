@@ -24,7 +24,6 @@ public class BaseTestsDB {
     static JdbcConnectionPool connectionPool;
     protected static Connection connection;
 
-
     @BeforeAll
     public static void beforeTestsDB() {
         connectionPool = JdbcConnectionPool.create(
@@ -52,7 +51,6 @@ public class BaseTestsDB {
             throw new RuntimeException(e);
         }
     }
-
 
     /**
      * Метод отправляет запрост, после преобразует
