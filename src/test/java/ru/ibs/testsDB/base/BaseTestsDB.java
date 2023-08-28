@@ -56,6 +56,7 @@ public class BaseTestsDB {
      * Метод отправляет запрост, после преобразует
      * полученные данные в лист данных типа ProductData
      * и проверяет что лист данных не пустой
+     *
      * @param sqlQuery - запрос
      * @return Лист данных
      */
@@ -64,8 +65,7 @@ public class BaseTestsDB {
         List<ProductData> products = getDataFromResp(response);
         checkRespIsNotEmpty(products);
         return products;
-}
-
+    }
 
     /**
      * Метод отправляет SELECT SQL запрос в базу данных
@@ -121,9 +121,7 @@ public class BaseTestsDB {
                         resultSet.getBoolean("FOOD_EXOTIC")));
             }
             log.info("Данные преобразованы");
-
-                    log.info(String.format("Полученные данные: %s", productList.toString() ));
-
+            log.info(String.format("Полученные данные: %s", productList.toString()));
 
             return productList;
         } catch (SQLException e) {
@@ -132,7 +130,8 @@ public class BaseTestsDB {
         }
     }
 
-    /**Метод проверяет данные полученные в ответе не пустые
+    /**
+     * Метод проверяет данные полученные в ответе не пустые
      *
      * @param productList - получечнные в ответе данные
      */
@@ -153,13 +152,12 @@ public class BaseTestsDB {
         log.info(String.format("Проверка строки с параметрами %s", expectedProduct.toString()));
 
         Assertions.assertTrue(productList.stream().anyMatch(
-                        (product) -> {
-                            return product.getName().equals(expectedProduct.getName()) &&
-                                    product.getType().equals(expectedProduct.getTypeForAPI()) &&
-                                    product.getExotic().equals(expectedProduct.isExotic());
-                        }
-                ),
-                "Наименование не найдено");
+                (product) -> {
+                    return product.getName().equals(expectedProduct.getName()) &&
+                            product.getType().equals(expectedProduct.getTypeForAPI()) &&
+                            product.getExotic().equals(expectedProduct.isExotic());
+                }
+        ), "Наименование не найдено");
     }
 }
 

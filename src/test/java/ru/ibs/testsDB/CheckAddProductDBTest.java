@@ -27,6 +27,5 @@ public class CheckAddProductDBTest extends BaseTestsDB {
         checkingTableRows(products, MANGO);
         sendingSQLQuery(DELETE_QUERY);
     }
-
 }
 

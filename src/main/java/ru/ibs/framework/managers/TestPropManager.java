@@ -55,5 +55,4 @@ public class TestPropManager {
     public String getProperty(String key) {
         return properties.getProperty(key);
     }
-
 }

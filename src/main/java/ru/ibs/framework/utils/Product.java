@@ -39,7 +39,6 @@ public enum Product {
                 ", exotic=" + exotic +
                 '}';
     }
-
     public String postBody() {
         return String.format("{\"name\":\"%s\", \"type\":\"%s\",\"exotic\":%s}",
                 name, typeForAPI, exotic);
