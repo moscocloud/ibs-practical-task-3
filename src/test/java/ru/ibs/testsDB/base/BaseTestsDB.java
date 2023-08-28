@@ -86,6 +86,22 @@ public class BaseTestsDB {
     }
 
     /**
+     * Метод отправляет INSERT SQL запрос в базу данных
+     *
+     * @param sqlQuery - строка SQL запроса
+     * @return ResultSet
+     */
+    @Step("Отправка INSERT SQL запроса в БД")
+    protected static boolean sendingSQLQuery(String sqlQuery) {
+        log.info(String.format("Отправка запроса \"%s\" в базу данных", sqlQuery));
+        try {
+            return connection.createStatement().execute(sqlQuery);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
      * Метод парсит полученный ответ от БД типа
      * ResultSet. Преобразовывает данные в тип
      * ProductData
@@ -125,16 +141,6 @@ public class BaseTestsDB {
     @Step("Проверка что ответ не пустой")
     protected static void checkRespIsNotEmpty(List<ProductData> productList) {
         Assertions.assertFalse(productList.isEmpty());
-    }
-
-    @Step("Отправка INSERT SQL запроса в БД")
-    protected static boolean sendingSQLQuery(String sqlQuery) {
-        log.info(String.format("Отправка запроса \"%s\" в базу данных", sqlQuery));
-        try {
-            return connection.createStatement().execute(sqlQuery);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     /**
