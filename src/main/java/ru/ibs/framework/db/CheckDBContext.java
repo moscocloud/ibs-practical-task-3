@@ -3,14 +3,17 @@ package ru.ibs.framework.db;
 import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
 import org.h2.jdbcx.JdbcConnectionPool;
+import org.h2.jdbcx.JdbcDataSource;
 import org.junit.jupiter.api.Assertions;
 import ru.ibs.framework.core.TestPropManager;
 import ru.ibs.framework.core.utils.Product;
 import ru.ibs.framework.core.utils.ProductData;
+import ru.ibs.framework.core.utils.PropsConst;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +39,6 @@ public class CheckDBContext {
         }
     }
 
-
     /**
      * Метод отправляет запрост, после преобразует
      * полученные данные в лист данных типа ProductData
@@ -52,7 +54,6 @@ public class CheckDBContext {
         return products;
     }
 
-
     /**
      * Метод отправляет SELECT SQL запрос в базу данных
      *
@@ -62,8 +63,11 @@ public class CheckDBContext {
     @Step("Отправка SELECT SQL запроса в БД")
     protected static ResultSet sendingSelectSQLQuery(String sqlQuery) {
         log.info(String.format("Отправка запроса \"%s\" в базу данных", sqlQuery));
+
         try {
-            return connection.createStatement().executeQuery(sqlQuery);
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sqlQuery);
+            return resultSet;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -78,8 +82,8 @@ public class CheckDBContext {
     @Step("Отправка INSERT SQL запроса в БД")
     protected static boolean sendingSQLQuery(String sqlQuery) {
         log.info(String.format("Отправка запроса \"%s\" в базу данных", sqlQuery));
-        try {
-            return connection.createStatement().execute(sqlQuery);
+        try (Statement statement = connection.createStatement()) {
+            return statement.execute(sqlQuery);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -98,19 +102,16 @@ public class CheckDBContext {
         log.info("Получение данных из ответа...");
 
         List<ProductData> productList = new ArrayList<>();
-        try {
+        try (ResultSet res = resultSet) {
             log.info("Преобразование данных...");
-            while (resultSet.next()) {
+            while (res.next()) {
                 productList.add(new ProductData<>(
-                        resultSet.getString("FOOD_NAME"),
-                        resultSet.getString("FOOD_TYPE"),
-                        resultSet.getBoolean("FOOD_EXOTIC")));
+                        res.getString("FOOD_NAME"),
+                        res.getString("FOOD_TYPE"),
+                        res.getBoolean("FOOD_EXOTIC")));
             }
             log.info("Данные преобразованы");
-
             log.info(String.format("Полученные данные: %s", productList.toString()));
-
-
             return productList;
         } catch (SQLException e) {
             log.info("Ошибка преобразования");
@@ -148,4 +149,18 @@ public class CheckDBContext {
                 ),
                 "Наименование не найдено");
     }
+
+    /**
+     * Соединение через DataSource
+     *
+     */
+    protected static JdbcDataSource createConnectionWithDataSourse() {
+        JdbcDataSource dataSource = new JdbcDataSource();
+        dataSource.setURL(propManager.getProperty(PropsConst.JDBC_USER));
+        dataSource.setUser(propManager.getProperty(PropsConst.JDBC_USER));
+        dataSource.setPassword(propManager.getProperty(PropsConst.JDBC_PASSWORD));
+        return dataSource;
+    }
+
+
 }
