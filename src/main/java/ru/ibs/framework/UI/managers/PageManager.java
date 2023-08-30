@@ -1,6 +1,6 @@
-package ru.ibs.framework.managers;
+package ru.ibs.framework.UI.managers;
 
-import ru.ibs.framework.pages.BasePage;
+import ru.ibs.framework.UI.pages.BasePage;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;

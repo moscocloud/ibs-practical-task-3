@@ -1,6 +1,5 @@
-package ru.ibs.framework.pages;
+package ru.ibs.framework.UI.pages;
 
-import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
@@ -33,7 +32,6 @@ public class MainPage extends BasePage {
      *
      * @return MainPage
      */
-    @Step("Проверка открытия сайта по заголовку")
     public MainPage checkOpenPage() {
         log.info("Проверка открытия сайта по заголовку");
 
@@ -46,7 +44,6 @@ public class MainPage extends BasePage {
      *
      * @return MainPage
      */
-    @Step("Проверка наличия таблицы товаров")
     public MainPage checkTableDisplayed() {
         log.info("Проверка наличия таблицы товаров");
 
@@ -60,7 +57,6 @@ public class MainPage extends BasePage {
      *
      * @return MainPage
      */
-    @Step("Проверка заголовков таблицы товаров")
     public MainPage checkTitlesTables() {
         log.info("Проверка заголовков таблицы товаров");
 
@@ -82,7 +78,6 @@ public class MainPage extends BasePage {
      * @param product - Продукт
      * @return MainPage
      */
-    @Step("Проверка строки таблицы с параметрами: \"{product}\"")
     public MainPage checkTableRowWithParam(Product product) {
         String name = product.getName();
         String type = product.getType();
@@ -115,7 +110,6 @@ public class MainPage extends BasePage {
      *
      * @return MainPage
      */
-    @Step("Проверка кнопки \"Добавить\"")
     public MainPage checkButtonAdd() {
         log.info("Проверка кнопки \"Добавить\"");
 
@@ -128,7 +122,6 @@ public class MainPage extends BasePage {
      *
      * @return ModalWindow
      */
-    @Step("Нажатие на кнопку \"Добавить\"")
     public ModalWindow clickButtonAdd() {
         log.info("Нажатие на кнопку \"Добавить\"");
 
@@ -136,6 +129,26 @@ public class MainPage extends BasePage {
         return pageManager.getPage(ModalWindow.class);
     }
 
+    public MainPage checkTableRowWithParamForCucumber(String name, String type, String exotic) {
+        log.info(String.format("Проверка строки таблицы с параметрами: " +
+                "Наименование:\"%s\", тип:\"%s\", экзотический: \"%s\"", name, type, exotic));
 
+        waitStabilityPage(3000, 1000);
+
+        findNameProduct(name, productNames);
+
+        String typeXpath = String.format(".//td[text()='%s']/following-sibling::td[1]", name);
+        String exoticXpath = String.format(".//td[text()='%s']/following-sibling::td[2]", name);
+
+        WebElement productType = table.findElement(By.xpath(typeXpath));
+        WebElement productIsExotic = table.findElement(By.xpath(exoticXpath));
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(type, productType.getText(),
+                        String.format("Тип %s у элимента %s не найден", type, name)),
+                () -> Assertions.assertEquals(exotic.toString(), productIsExotic.getText(),
+                        String.format("Параметр \"Экзотический\" = %s у элимента %s не найден", exotic, name)));
+
+        return this;
+    }
 }
 

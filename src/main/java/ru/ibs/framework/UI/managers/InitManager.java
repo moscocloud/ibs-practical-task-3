@@ -1,4 +1,4 @@
-package ru.ibs.framework.managers;
+package ru.ibs.framework.UI.managers;
 
 import ru.ibs.framework.utils.PropsConst;
 

@@ -1,4 +1,4 @@
-package ru.ibs.framework.pages;
+package ru.ibs.framework.UI.pages;
 
 import io.qameta.allure.Attachment;
 import org.junit.jupiter.api.Assertions;
@@ -8,8 +8,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import ru.ibs.framework.managers.DriverManager;
-import ru.ibs.framework.managers.PageManager;
+import ru.ibs.framework.UI.managers.DriverManager;
+import ru.ibs.framework.UI.managers.PageManager;
 
 import java.util.List;
 
