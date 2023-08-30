@@ -4,12 +4,12 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
-import ru.ibs.framework.managers.DriverManager;
-import ru.ibs.framework.managers.InitManager;
-import ru.ibs.framework.managers.PageManager;
-import ru.ibs.framework.managers.TestPropManager;
-import ru.ibs.framework.utils.MyAllureListener;
-import ru.ibs.framework.utils.PropsConst;
+import ru.ibs.framework.ui.managers.DriverManager;;
+import ru.ibs.framework.ui.managers.InitManager;
+import ru.ibs.framework.ui.managers.PageManager;
+import ru.ibs.framework.core.TestPropManager;
+import ru.ibs.framework.core.utils.MyAllureListener;
+import ru.ibs.framework.core.utils.PropsConst;
 
 @ExtendWith(MyAllureListener.class)
 public class BaseTests {

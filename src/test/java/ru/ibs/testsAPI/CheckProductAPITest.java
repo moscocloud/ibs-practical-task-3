@@ -3,12 +3,12 @@ package ru.ibs.testsAPI;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import ru.ibs.framework.data.ProductData;
+import ru.ibs.framework.core.utils.ProductData;
 import ru.ibs.testsAPI.base.BaseTestAPI;
 
 import java.util.List;
 
-import static ru.ibs.framework.utils.Product.TOMATO;
+import static ru.ibs.framework.core.utils.Product.TOMATO;
 
 public class CheckProductAPITest extends BaseTestAPI {
 

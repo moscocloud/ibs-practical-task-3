@@ -1,4 +1,4 @@
-package ru.ibs.framework.managers;
+package ru.ibs.framework.ui.managers;
 
 
 import io.github.bonigarcia.wdm.WebDriverManager;

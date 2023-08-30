@@ -1,4 +1,4 @@
-package ru.ibs.testsAPI.specification;
+package ru.ibs.framework.api;
 
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
@@ -7,10 +7,8 @@ import io.restassured.http.Cookies;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import lombok.extern.slf4j.Slf4j;
-import ru.ibs.framework.managers.TestPropManager;
-import ru.ibs.framework.utils.PropsConst;
-
-import static io.restassured.RestAssured.given;
+import ru.ibs.framework.core.TestPropManager;
+import ru.ibs.framework.core.utils.PropsConst;
 
 @Slf4j
 public class Specification {
@@ -24,7 +22,7 @@ public class Specification {
      */
     public static Cookies getCookies() {
         log.info("Получение куки");
-        return given()
+        return RestAssured.given()
                 .when()
                 .get("/api/food")
                 .getDetailedCookies();

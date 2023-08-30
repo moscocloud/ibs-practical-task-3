@@ -1,4 +1,4 @@
-package ru.ibs.framework.managers;
+package ru.ibs.framework.core;
 
 import java.io.File;
 import java.io.FileInputStream;

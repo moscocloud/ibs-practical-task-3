@@ -1,6 +1,7 @@
-package ru.ibs.framework.managers;
+package ru.ibs.framework.ui.managers;
 
-import ru.ibs.framework.utils.PropsConst;
+import ru.ibs.framework.core.TestPropManager;
+import ru.ibs.framework.core.utils.PropsConst;
 
 import java.util.concurrent.TimeUnit;
 

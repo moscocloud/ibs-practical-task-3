@@ -4,14 +4,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import ru.ibs.framework.data.ProductData;
+import ru.ibs.framework.core.utils.ProductData;
 import ru.ibs.testsDB.base.BaseTestsDB;
 
 import java.sql.SQLException;
 import java.util.List;
 
-import static ru.ibs.framework.utils.Product.MANGO;
-import static ru.ibs.testsDB.sql.Query.*;
+import static ru.ibs.framework.core.utils.Product.MANGO;
+import static ru.ibs.framework.core.utils.SQLQuery.*;
 
 @Slf4j
 public class CheckAddProductDBTest extends BaseTestsDB {

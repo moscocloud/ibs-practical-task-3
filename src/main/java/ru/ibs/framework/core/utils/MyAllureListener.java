@@ -1,11 +1,11 @@
-package ru.ibs.framework.utils;
+package ru.ibs.framework.core.utils;
 
 import io.qameta.allure.Attachment;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import ru.ibs.framework.managers.DriverManager;
+import ru.ibs.framework.ui.managers.DriverManager;
 
 
 public class MyAllureListener implements AfterTestExecutionCallback {
