@@ -21,17 +21,16 @@
 
         <!-- Dependencies version-->
         <selenium-java.version>3.141.59</selenium-java.version>
-        <junit-jupiter-api.version>5.9.2</junit-jupiter-api.version>
-        <junit-platform-launcher.version>1.8.2</junit-platform-launcher.version>
+        <junit-jupiter.version>5.9.2</junit-jupiter.version>
         <webdrivermanager.version>5.3.2</webdrivermanager.version>
         <allure-junit5.version>2.13.5</allure-junit5.version>
-        <allure-java-commons.version>2.13.6</allure-java-commons.version>
         <rest-assured.version>5.3.0</rest-assured.version>
         <jackson-databind.version>2.14.2</jackson-databind.version>
         <lombok.version>1.18.22</lombok.version>
         <logback-classic.version>1.2.11</logback-classic.version>
         <slf4j-api.version>1.7.36</slf4j-api.version>
         <slf4j-log4j12.version>1.7.25</slf4j-log4j12.version>
+        <h2.version>2.2.220</h2.version>
 
         <!-- Plugins version-->
         <aspectj.version>1.9.7</aspectj.version>
@@ -53,17 +52,9 @@
         <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit-jupiter-api.version}</version>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit-jupiter.version}</version>
             <scope>compile</scope>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-launcher -->
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-launcher</artifactId>
-            <version>${junit-platform-launcher.version}</version>
-            <scope>test</scope>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager -->
@@ -78,14 +69,6 @@
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-junit5</artifactId>
             <version>${allure-junit5.version}</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/io.qameta.allure/allure-java-commons -->
-        <dependency>
-            <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-java-commons</artifactId>
-            <version>${allure-java-commons.version}</version>
             <scope>compile</scope>
         </dependency>
 
@@ -136,15 +119,19 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>2.2.220</version>
+            <version>${h2.version}</version>
         </dependency>
 
-
+        <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectj.version}</version>
+        </dependency>
 
     </dependencies>
     <build>
         <plugins>
-
             <!-- Плагин отвечающий за компиляцию тестов и Java классов-->
             <plugin>
                 <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
@@ -181,16 +168,6 @@
                         </property>
                     </properties>
                 </configuration>
-
-                <!-- Слушатель событий, нужен для работы (maven-surefire-plugin) указан в (argLine) в качестве javaagent-->
-                <dependencies>
-                    <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
-                    <dependency>
-                        <groupId>org.aspectj</groupId>
-                        <artifactId>aspectjweaver</artifactId>
-                        <version>${aspectj.version}</version>
-                    </dependency>
-                </dependencies>
             </plugin>
 
             <!-- Плагин, который отвечает за формирование сайта Allure отчета -->
