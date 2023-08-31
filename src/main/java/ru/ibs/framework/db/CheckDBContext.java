@@ -37,50 +37,48 @@ public class CheckDBContext {
             log.info("ОШИБКА соединения с БД");
             throw new RuntimeException(e);
         }
+        log.info("Соединение с БД установлено");
     }
 
     /**
-     * Метод отправляет запрост, после преобразует
-     * полученные данные в лист данных типа ProductData
-     * и проверяет что лист данных не пустой
-     *
-     * @param sqlQuery - запрос
-     * @return Лист данных
+     * Отправка SELECT запроса,
+     * преобразование данных и проверка что ответ не пустой
      */
-    protected static List<ProductData> requestTransformationCheck(String sqlQuery) {
-        ResultSet response = sendingSelectSQLQuery(sqlQuery);
-        List<ProductData> products = getDataFromResp(response);
-        checkRespIsNotEmpty(products);
-        return products;
-    }
+    @Step("Отправка SELECT запроса преобразование ответа и проверка что ответ не пустой")
+    protected static void sendSelectAndCheckNotEmpty(String sqlQuery) {
 
-    /**
-     * Метод отправляет SELECT SQL запрос в базу данных
-     *
-     * @param sqlQuery - строка SQL запроса
-     * @return ResultSet
-     */
-    @Step("Отправка SELECT SQL запроса в БД")
-    protected static ResultSet sendingSelectSQLQuery(String sqlQuery) {
-        log.info(String.format("Отправка запроса \"%s\" в базу данных", sqlQuery));
+        List<ProductData> productList = new ArrayList<>();
 
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sqlQuery);
-            return resultSet;
+        try (Statement statement = connection.createStatement()) {
+
+            log.info(String.format("Отправка запроса \"%s\" в базу данных", sqlQuery));
+            try (ResultSet resultSet = statement.executeQuery(sqlQuery)) {
+
+                log.info("Получение данных из ответа...");
+                while (resultSet.next()) {
+                    productList.add(new ProductData<>(
+                            resultSet.getString("FOOD_NAME"),
+                            resultSet.getString("FOOD_TYPE"),
+                            resultSet.getBoolean("FOOD_EXOTIC")));
+                }
+            }
+            log.info("Данные получены и преобразованы");
+            Assertions.assertFalse(productList.isEmpty(), "Ответ пустой");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+
+            log.info("Ошибка преобразования");
+            e.printStackTrace();
         }
     }
 
     /**
-     * Метод отправляет INSERT SQL запрос в базу данных
-     *
-     * @param sqlQuery - строка SQL запроса
-     * @return ResultSet
+     * Отправка INSERT запроса
+     * @param sqlQuery запрос
+     * @return true/false
      */
     @Step("Отправка INSERT SQL запроса в БД")
     protected static boolean sendingSQLQuery(String sqlQuery) {
+
         log.info(String.format("Отправка запроса \"%s\" в базу данных", sqlQuery));
         try (Statement statement = connection.createStatement()) {
             return statement.execute(sqlQuery);
@@ -90,69 +88,57 @@ public class CheckDBContext {
     }
 
     /**
-     * Метод парсит полученный ответ от БД типа
-     * ResultSet. Преобразовывает данные в тип
-     * ProductData
-     *
-     * @param resultSet - ответ от БД
-     * @return список данных типа ProductData
+     * Отправка селект запроса и поиск отправленой строки в таблице
+     * @param sqlQuery запрос
+     * @param expectedProduct добавленный продукт
      */
-    @Step("Получение данных из ответа на SQL запрос")
-    protected static List<ProductData> getDataFromResp(ResultSet resultSet) {
-        log.info("Получение данных из ответа...");
+    @Step("Отправка SELECT запроса преобразование ответа и поиск отправленой строки в таблице")
+    protected static void sendSelectAndCheckTableRow(String sqlQuery, Product expectedProduct) {
 
         List<ProductData> productList = new ArrayList<>();
-        try (ResultSet res = resultSet) {
-            log.info("Преобразование данных...");
-            while (res.next()) {
-                productList.add(new ProductData<>(
-                        res.getString("FOOD_NAME"),
-                        res.getString("FOOD_TYPE"),
-                        res.getBoolean("FOOD_EXOTIC")));
+
+        try (Statement statement = connection.createStatement()) {
+
+            log.info(String.format("Отправка запроса \"%s\" в базу данных", sqlQuery));
+            try (ResultSet resultSet = statement.executeQuery(sqlQuery)) {
+
+                log.info("Получение данных из ответа...");
+                while (resultSet.next()) {
+                    productList.add(new ProductData<>(
+                            resultSet.getString("FOOD_NAME"),
+                            resultSet.getString("FOOD_TYPE"),
+                            resultSet.getBoolean("FOOD_EXOTIC")));
+                }
             }
-            log.info("Данные преобразованы");
-            log.info(String.format("Полученные данные: %s", productList.toString()));
-            return productList;
+
+            log.info("Данные получены и преобразованы");
+            log.info(String.format("Проверка строки с параметрами %s", expectedProduct.toString()));
+            Assertions.assertTrue(productList.stream().anyMatch(
+                    (product) -> {
+                        return product.getName().equals(expectedProduct.getName()) &&
+                                product.getType().equals(expectedProduct.getTypeForAPI()) &&
+                                product.getExotic().equals(expectedProduct.isExotic());
+                    }), "Строка не найдена");
         } catch (SQLException e) {
+
             log.info("Ошибка преобразования");
-            throw new RuntimeException();
+            e.printStackTrace();
+        }
+    }
+
+    @Step("Отправка DELETE SQL запроса в БД")
+    protected static boolean sendingDeleteSQLQuery(String sqlQuery) {
+
+        log.info(String.format("Отправка запроса \"%s\" в базу данных", sqlQuery));
+        try (Statement statement = connection.createStatement()) {
+            return statement.execute(sqlQuery);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
     /**
-     * Метод проверяет данные полученные в ответе не пустые
-     *
-     * @param productList - получечнные в ответе данные
-     */
-    @Step("Проверка что ответ не пустой")
-    protected static void checkRespIsNotEmpty(List<ProductData> productList) {
-        Assertions.assertFalse(productList.isEmpty());
-    }
-
-    /**
-     * Метод переберает лист и проверяет есть ли искомая строка в
-     * списке
-     *
-     * @param productList     список продуктов
-     * @param expectedProduct искомая строка
-     */
-    @Step("Проверка строки с параметрами {expectedProduct}")
-    protected static void checkingTableRows(List<ProductData> productList, Product expectedProduct) {
-        log.info(String.format("Проверка строки с параметрами %s", expectedProduct.toString()));
-
-        Assertions.assertTrue(productList.stream().anyMatch(
-                        (product) -> {
-                            return product.getName().equals(expectedProduct.getName()) &&
-                                    product.getType().equals(expectedProduct.getTypeForAPI()) &&
-                                    product.getExotic().equals(expectedProduct.isExotic());
-                        }
-                ),
-                "Наименование не найдено");
-    }
-
-    /**
      * Соединение через DataSource
-     *
      */
     protected static JdbcDataSource createConnectionWithDataSourse() {
         JdbcDataSource dataSource = new JdbcDataSource();
