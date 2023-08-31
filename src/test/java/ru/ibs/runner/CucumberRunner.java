@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
         glue = {"ru/ibs/framework/cucumberSteps",
                 "ru/ibs/framework/hooks"},
         tags = {"@regress"},
-        plugin = {"ru.ibs.framework.utils.MyAllureListener"})
+        plugin = {"ru.ibs.framework.core.utils.MyAllureListener"})
 public class CucumberRunner {
     
 }

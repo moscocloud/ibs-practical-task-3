@@ -1,13 +1,13 @@
 package ru.ibs.framework.cucumberSteps;
 
 import io.cucumber.java.ru.И;
-import ru.ibs.framework.db.CheckDBContext;
 
-public class DataBaseSteps extends CheckDBContext {
+import static ru.ibs.framework.db.CheckDBContext.*;
+
+public class DataBaseSteps{
 
     @И("Подключение и установка соединения с базой данных")
     public void openConnectionDBCucumber() {
-        openConnectionDB();
         createConnectionDB();
     }
 

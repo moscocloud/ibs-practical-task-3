@@ -17,19 +17,16 @@ import java.util.List;
 @Slf4j
 public class CheckDBContext {
 
-    protected static TestPropManager propManager;
+    protected static TestPropManager propManager = TestPropManager.getInstance();;
     protected static JdbcConnectionPool connectionPool;
     protected static Connection connection;
 
-    public void openConnectionDB() {
-    connectionPool = JdbcConnectionPool.create(
-            propManager.getProperty(PropsConst.JDBC_URL),
-            propManager.getProperty(PropsConst.JDBC_USER),
-            propManager.getProperty(PropsConst.JDBC_PASSWORD));
-    }
-
-    public void createConnectionDB(){
+    public static void createConnectionDB(){
         log.info("Соединение с БД...");
+        connectionPool = JdbcConnectionPool.create(
+                propManager.getProperty(PropsConst.JDBC_URL),
+                propManager.getProperty(PropsConst.JDBC_USER),
+                propManager.getProperty(PropsConst.JDBC_PASSWORD));
         try {
             connection = connectionPool.getConnection();
             log.info("Соединение установлено");
@@ -39,7 +36,7 @@ public class CheckDBContext {
         }
     }
 
-    public void sendSelectAndProcessing(String sqlQuery){
+    public static void sendSelectAndProcessing(String sqlQuery){
         log.info(String.format("Отправка запроса \"%s\" в базу данных", sqlQuery));
 
         List<ProductData> productList = new ArrayList<>();
@@ -66,7 +63,7 @@ public class CheckDBContext {
         }
     }
 
-    public void sendInsertQuery(String sqlQuery){
+    public static void sendInsertQuery(String sqlQuery){
         log.info(String.format("Отправка запроса \"%s\" в базу данных", sqlQuery));
         try (Statement statement = connection.createStatement()) {
             statement.execute(sqlQuery);
@@ -75,7 +72,7 @@ public class CheckDBContext {
         }
     }
 
-    public void sendSelectAndChechTableRows(String sqlQuery, String name, String type, String isExotic){
+    public static void sendSelectAndChechTableRows(String sqlQuery, String name, String type, String isExotic){
         log.info(String.format("Отправка запроса \"%s\" в базу данных", sqlQuery));
 
         List<ProductData> productList = new ArrayList<>();
@@ -90,7 +87,7 @@ public class CheckDBContext {
                 productList.add(new ProductData<>(
                         resultSet.getString("FOOD_NAME"),
                         resultSet.getString("FOOD_TYPE"),
-                        resultSet.getBoolean("FOOD_EXOTIC")));
+                        resultSet.getString("FOOD_EXOTIC")));
 
             }
             log.info("Данные преобразованы");
@@ -117,7 +114,7 @@ public class CheckDBContext {
         }
     }
 
-    public void sendDeleteQuery(String sqlQuery){
+    public static void sendDeleteQuery(String sqlQuery){
         log.info(String.format("Отправка запроса \"%s\" в базу данных", sqlQuery));
         try (Statement statement = connection.createStatement()) {
             statement.execute(sqlQuery);
@@ -126,7 +123,7 @@ public class CheckDBContext {
         }
     }
 
-    public void closeConnectionDB(){
+    public static void closeConnectionDB(){
         try {
             connection.close();
         } catch (SQLException e) {
