@@ -22,11 +22,9 @@
         <!-- Dependencies version-->
         <selenium-java.version>3.141.59</selenium-java.version>
         <junit-jupiter-api.version>5.9.2</junit-jupiter-api.version>
-        <junit-platform-launcher.version>1.9.3</junit-platform-launcher.version>
         <junit-platform-suite.version>1.9.3</junit-platform-suite.version>
         <webdrivermanager.version>5.3.2</webdrivermanager.version>
         <cucumber-java.version>7.13.0</cucumber-java.version>
-        <cucumber-junit.version>7.13.0</cucumber-junit.version>
         <cucumber-junit-platform-engine.version>7.13.0</cucumber-junit-platform-engine.version>
         <allure-cucumber7-jvm.version>2.24.0</allure-cucumber7-jvm.version>
 
@@ -41,7 +39,7 @@
         <aspectj.version>1.9.7</aspectj.version>
         <allure-maven.version>2.10.0</allure-maven.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-        <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
+        <maven-surefire-plugin.version>3.1.0</maven-surefire-plugin.version>
 
     </properties>
 
@@ -57,16 +55,9 @@
         <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
+            <artifactId>junit-jupiter</artifactId>
             <version>${junit-jupiter-api.version}</version>
             <scope>compile</scope>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-launcher -->
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-runner</artifactId>
-            <version>${junit-platform-launcher.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager -->
@@ -104,19 +95,11 @@
             <version>${allure-cucumber7-jvm.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-java -->
+        <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
         <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-junit</artifactId>
-            <version>${cucumber-junit.version}</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/io.qameta.allure/allure-java-commons -->
-        <dependency>
-            <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-java-commons</artifactId>
-            <version>${allure-java-commons.version}</version>
-            <scope>compile</scope>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectj.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
@@ -162,6 +145,7 @@
             <version>2.2.220</version>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -169,8 +153,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <source>8</source>
-                    <target>8</target>
+                    <source>11</source>
+                    <target>11</target>
                     <encoding>${encoding.type}</encoding>
                 </configuration>
             </plugin>
@@ -187,20 +171,10 @@
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                     </argLine>
                     <systemPropertyVariables>
-                        <allure.results.directory>${project.build.directory}/reports/allure-results
-                        </allure.results.directory>
-                        <junit.jupiter.extensions.autodetection.enabled>true
-                        </junit.jupiter.extensions.autodetection.enabled>
+                        <allure.results.directory>${project.build.directory}/reports/allure-results</allure.results.directory>
+                        <junit.jupiter.extensions.autodetection.enabled>true</junit.jupiter.extensions.autodetection.enabled>
                     </systemPropertyVariables>
                 </configuration>
-                <dependencies>
-                    <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
-                    <dependency>
-                        <groupId>org.aspectj</groupId>
-                        <artifactId>aspectjweaver</artifactId>
-                        <version>${aspectj.version}</version>
-                    </dependency>
-                </dependencies>
             </plugin>
 
             <!-- Плагин, отвечающий за формирование сайта Allure отчета -->
