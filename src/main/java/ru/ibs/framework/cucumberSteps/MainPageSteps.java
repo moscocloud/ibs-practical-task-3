@@ -1,8 +1,8 @@
 package ru.ibs.framework.cucumberSteps;
 
 import io.cucumber.java.ru.И;
-import ru.ibs.framework.UI.managers.PageManager;
-import ru.ibs.framework.UI.pages.MainPage;
+import ru.ibs.framework.ui.managers.PageManager;
+import ru.ibs.framework.ui.pages.MainPage;
 
 public class MainPageSteps {
 

@@ -3,12 +3,12 @@ package ru.ibs.framework.hooks;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import org.junit.jupiter.api.extension.ExtendWith;
-import ru.ibs.framework.UI.managers.DriverManager;
-import ru.ibs.framework.UI.managers.InitManager;
-import ru.ibs.framework.UI.managers.PageManager;
-import ru.ibs.framework.UI.managers.TestPropManager;
-import ru.ibs.framework.utils.MyAllureListener;
-import ru.ibs.framework.utils.PropsConst;
+import ru.ibs.framework.ui.managers.DriverManager;
+import ru.ibs.framework.ui.managers.InitManager;
+import ru.ibs.framework.ui.managers.PageManager;
+import ru.ibs.framework.ui.managers.TestPropManager;
+import ru.ibs.framework.core.utils.MyAllureListener;
+import ru.ibs.framework.core.utils.PropsConst;
 
 @ExtendWith(MyAllureListener.class)
 public class Hooks {

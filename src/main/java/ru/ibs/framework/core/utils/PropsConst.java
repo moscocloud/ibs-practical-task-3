@@ -1,4 +1,4 @@
-package ru.ibs.framework.utils;
+package ru.ibs.framework.core.utils;
 
 public class PropsConst {
     public static final String IMPLICITY_WAIT = "implicitly.wait";

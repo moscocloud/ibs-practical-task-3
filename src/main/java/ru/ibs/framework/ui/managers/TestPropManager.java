@@ -1,4 +1,4 @@
-package ru.ibs.framework.UI.managers;
+package ru.ibs.framework.ui.managers;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -1,4 +1,4 @@
-package ru.ibs.framework.utils;
+package ru.ibs.framework.core.utils;
 
 import io.qameta.allure.Attachment;
 import io.qameta.allure.cucumber5jvm.AllureCucumber5Jvm;
@@ -6,7 +6,7 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.TestWatcher;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import ru.ibs.framework.UI.managers.DriverManager;
+import ru.ibs.framework.ui.managers.DriverManager;
 
 
 public class MyAllureListener extends AllureCucumber5Jvm implements TestWatcher {

@@ -1,4 +1,4 @@
-package ru.ibs.framework.utils;
+package ru.ibs.framework.core.utils;
 
 public enum Product {
     TOMATO("Помидор", "Овощ", false, "VEGETABLE"),

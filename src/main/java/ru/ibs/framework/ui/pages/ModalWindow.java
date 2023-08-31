@@ -1,11 +1,11 @@
-package ru.ibs.framework.UI.pages;
+package ru.ibs.framework.ui.pages;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import ru.ibs.framework.utils.Product;
+import ru.ibs.framework.core.utils.Product;
 
 @Slf4j
 public class ModalWindow extends BasePage {

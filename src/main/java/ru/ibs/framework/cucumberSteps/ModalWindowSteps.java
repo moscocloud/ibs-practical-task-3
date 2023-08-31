@@ -1,8 +1,8 @@
 package ru.ibs.framework.cucumberSteps;
 
 import io.cucumber.java.ru.И;
-import ru.ibs.framework.UI.managers.PageManager;
-import ru.ibs.framework.UI.pages.ModalWindow;
+import ru.ibs.framework.ui.managers.PageManager;
+import ru.ibs.framework.ui.pages.ModalWindow;
 
 public class ModalWindowSteps {
     PageManager pageManager = PageManager.getInstance();

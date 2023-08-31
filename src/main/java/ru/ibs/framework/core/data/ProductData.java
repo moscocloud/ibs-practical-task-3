@@ -1,4 +1,4 @@
-package ru.ibs.framework.data;
+package ru.ibs.framework.core.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
