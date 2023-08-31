@@ -4,11 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import ru.ibs.framework.core.utils.ProductData;
 import ru.ibs.testsDB.base.BaseTestsDB;
 
 import java.sql.SQLException;
-import java.util.List;
 
 import static ru.ibs.framework.core.utils.Product.MANGO;
 import static ru.ibs.framework.core.utils.SQLQuery.*;
@@ -21,11 +19,12 @@ public class CheckAddProductDBTest extends BaseTestsDB {
     @DisplayName("Проверка товаров в DB")
     public void checkAddProductDBTest() throws SQLException {
         createConnectionDB();
-        requestTransformationCheck(SELECT_QUERY);
+        sendSelectAndCheckNotEmpty(SELECT_QUERY);
         sendingSQLQuery(INSERT_QUERY);
-        List<ProductData> products = requestTransformationCheck(SELECT_QUERY);
-        checkingTableRows(products, MANGO);
-        sendingSQLQuery(DELETE_QUERY);
+        sendSelectAndCheckTableRow(SELECT_QUERY, MANGO);
+        sendingDeleteSQLQuery(DELETE_QUERY);
+
+
     }
 
 }
