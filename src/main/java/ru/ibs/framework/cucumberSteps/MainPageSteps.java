@@ -1,13 +1,23 @@
 package ru.ibs.framework.cucumberSteps;
 
 import io.cucumber.java.ru.И;
+import ru.ibs.framework.core.utils.PropsConst;
+import ru.ibs.framework.ui.managers.DriverManager;
+import ru.ibs.framework.ui.managers.InitManager;
 import ru.ibs.framework.ui.managers.PageManager;
+import ru.ibs.framework.ui.managers.TestPropManager;
 import ru.ibs.framework.ui.pages.MainPage;
 
 public class MainPageSteps {
+    private DriverManager driverManager = DriverManager.getInstance();
+    private TestPropManager propManager = TestPropManager.getInstance();
+    protected PageManager pageManager = PageManager.getInstance();
 
-    PageManager pageManager = PageManager.getInstance();
-
+    @И("^Инициализация фреймворка$")
+    public void initFramework() {
+        InitManager.initFrame();
+        driverManager.getDriver().get(propManager.getProperty(PropsConst.BASE_URL));
+    }
     @И("^Проверка открытия сайта по заголовку$")
     public void checkOpenPage() {
         pageManager.getPage(MainPage.class).checkOpenPage();

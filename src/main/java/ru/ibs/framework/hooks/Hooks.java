@@ -19,8 +19,7 @@ public class Hooks {
 
     @Before
     public void before() {
-       InitManager.initFrame();
-        driverManager.getDriver().get(propManager.getProperty(PropsConst.BASE_URL));
+
     }
 
     @After
