@@ -22,13 +22,15 @@
         <!-- Dependencies version-->
         <selenium-java.version>3.141.59</selenium-java.version>
         <junit-jupiter-api.version>5.9.2</junit-jupiter-api.version>
-        <junit-platform-launcher.version>1.8.2</junit-platform-launcher.version>
+        <junit-platform-launcher.version>1.9.3</junit-platform-launcher.version>
+        <junit-platform-suite.version>1.9.3</junit-platform-suite.version>
         <webdrivermanager.version>5.3.2</webdrivermanager.version>
-        <cucumber-java.version>5.7.0</cucumber-java.version>
-        <cucumber-junit.version>5.7.0</cucumber-junit.version>
-        <allure-cucumber5-jvm.version>2.14.0</allure-cucumber5-jvm.version>
+        <cucumber-java.version>7.13.0</cucumber-java.version>
+        <cucumber-junit.version>7.13.0</cucumber-junit.version>
+        <cucumber-junit-platform-engine.version>7.13.0</cucumber-junit-platform-engine.version>
+        <allure-cucumber7-jvm.version>2.24.0</allure-cucumber7-jvm.version>
+
         <allure-java-commons.version>2.13.6</allure-java-commons.version>
-        <rest-assured.version>5.3.0</rest-assured.version>
         <jackson-databind.version>2.14.2</jackson-databind.version>
         <lombok.version>1.18.22</lombok.version>
         <logback-classic.version>1.2.11</logback-classic.version>
@@ -65,7 +67,6 @@
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-runner</artifactId>
             <version>${junit-platform-launcher.version}</version>
-            <scope>test</scope>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager -->
@@ -75,11 +76,32 @@
             <version>${webdrivermanager.version}</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-suite -->
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-suite</artifactId>
+            <version>${junit-platform-suite.version}</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-java -->
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
             <version>${cucumber-java.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-junit-platform-engine -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit-platform-engine</artifactId>
+            <version>${cucumber-junit-platform-engine.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.qameta.allure/allure-cucumber5-jvm -->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-cucumber7-jvm</artifactId>
+            <version>${allure-cucumber7-jvm.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-java -->
@@ -89,26 +111,12 @@
             <version>${cucumber-junit.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/io.qameta.allure/allure-cucumber5-jvm -->
-        <dependency>
-            <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-cucumber5-jvm</artifactId>
-            <version>${allure-cucumber5-jvm.version}</version>
-        </dependency>
-
         <!-- https://mvnrepository.com/artifact/io.qameta.allure/allure-java-commons -->
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-java-commons</artifactId>
             <version>${allure-java-commons.version}</version>
             <scope>compile</scope>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/io.rest-assured/rest-assured -->
-        <dependency>
-            <groupId>io.rest-assured</groupId>
-            <artifactId>rest-assured</artifactId>
-            <version>${rest-assured.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
@@ -172,7 +180,7 @@
                 <version>${maven-surefire-plugin.version}</version>
                 <configuration>
                     <testFailureIgnore>true</testFailureIgnore>
-                    <includes>**/*CucumberRunner.java</includes>
+                    <includes>**/TestRunner.java</includes>
                     <argLine>
                         -Xmx1024m
                         -Dfile.encoding=${encoding.type}
@@ -181,6 +189,8 @@
                     <systemPropertyVariables>
                         <allure.results.directory>${project.build.directory}/reports/allure-results
                         </allure.results.directory>
+                        <junit.jupiter.extensions.autodetection.enabled>true
+                        </junit.jupiter.extensions.autodetection.enabled>
                     </systemPropertyVariables>
                 </configuration>
                 <dependencies>
