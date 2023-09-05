@@ -3,16 +3,27 @@ package ru.ibs.framework.api;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import lombok.extern.slf4j.Slf4j;
+import org.h2.jdbcx.JdbcConnectionPool;
 import org.junit.jupiter.api.Assertions;
+import ru.ibs.framework.core.TestPropManager;
 import ru.ibs.framework.core.utils.Product;
 import ru.ibs.framework.core.utils.ProductData;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
 
 @Slf4j
 public class CheckAPIContext {
+
+    protected static TestPropManager propManager = TestPropManager.getInstance();
+    protected static JdbcConnectionPool connectionPool;
+
     /**
      * Метод отправляет запрос и возвращает лист продуктов
      *
@@ -32,7 +43,8 @@ public class CheckAPIContext {
                 .getList(".", ProductData.class);
     }
 
-    /**Метод отправляет пост запрос с телом product
+    /**
+     * Метод отправляет пост запрос с телом product
      *
      * @param product тело пост запроса
      */
@@ -52,6 +64,7 @@ public class CheckAPIContext {
                 .when()
                 .post("/api/data/reset");
     }
+
     /**
      * Метод проверяет конкректную строку с параметрами,
      * в таблице
@@ -71,6 +84,51 @@ public class CheckAPIContext {
                         }
                 ),
                 "Наименование не найдено");
+    }
+
+
+    @Step("Проверка добавления товара через JDBC")
+    protected static void checkProductAndDeleteWithJDBC(String SelectSQL, Product expectedProduct) {
+
+        List<ProductData> productList = new ArrayList<>();
+
+        log.info("Установка соединения с базой данных...");
+        try (Connection connection = connectionPool.getConnection()) {
+
+            log.info("Отправляю запрос в базу данных...");
+            try (Statement statement = connection.createStatement()) {
+
+                log.info("Преобразование данных ответа...");
+                try (ResultSet resultSet = statement.executeQuery(SelectSQL)) {
+                    while (resultSet.next()) {
+                        productList.add(new ProductData<>(
+                                resultSet.getString("FOOD_NAME"),
+                                resultSet.getString("FOOD_TYPE"),
+                                resultSet.getBoolean("FOOD_EXOTIC")
+                        ));
+                    }
+                }
+                log.info("Данные преобразованы");
+                log.info(String.format("Полученные данные: %s", productList.toString()));
+
+                log.info(String.format("Проверка строки с параметрами %s", expectedProduct.toString()));
+                Assertions.assertTrue(productList.stream().anyMatch(
+                                (product) -> {
+                                    return product.getName().equals(expectedProduct.getName()) &&
+                                            product.getType().equals(expectedProduct.getTypeForAPI()) &&
+                                            product.getExotic().equals(expectedProduct.isExotic());
+                                })
+                        , String.format("Элемент %s не найден" , expectedProduct.toString()));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @Step("Удаление товара через JDBC")
+    protected static void checkProductAndDeleteWithJDBC() {
+
     }
 
 }
