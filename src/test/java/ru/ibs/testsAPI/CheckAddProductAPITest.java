@@ -19,7 +19,8 @@ public class CheckAddProductAPITest extends BaseTestAPI {
     @DisplayName("Проверка функционала добавления товаров через API")
     public void checkAddProduct() {
         List<ProductData> productsAfter = getProductList();
-        checkThatTableHasNotProduct(productsAfter, MANGO);
+//        проверка отсутствия сторки через jdbc
+        checkThatTableHasNotProductWithJDBC(SELECT_QUERY, MANGO);
 
         sendPost(MANGO);
 

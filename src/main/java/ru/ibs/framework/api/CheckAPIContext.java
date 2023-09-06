@@ -98,6 +98,43 @@ public class CheckAPIContext {
         log.info(String.format("Строка %s в таблице не найдена", expectedProduct.toString()));
     }
 
+    @Step("Проверка отсутствия товара через JDBC")
+    protected static void checkThatTableHasNotProductWithJDBC(String SelectSQL, Product expectedProduct) {
+
+        List<ProductData> productList = new ArrayList<>();
+
+        log.info("Установка соединения с базой данных...");
+        try (Connection connection = connectionPool.getConnection()) {
+
+            log.info("Отправляю запрос в базу данных...");
+            try (Statement statement = connection.createStatement()) {
+
+                log.info("Преобразование данных ответа...");
+                try (ResultSet resultSet = statement.executeQuery(SelectSQL)) {
+                    while (resultSet.next()) {
+                        productList.add(new ProductData<>(
+                                resultSet.getString("FOOD_NAME"),
+                                resultSet.getString("FOOD_TYPE"),
+                                resultSet.getBoolean("FOOD_EXOTIC")
+                        ));
+                    }
+                }
+                log.info("Данные преобразованы");
+                log.info(String.format("Полученные данные: %s", productList.toString()));
+
+                log.info(String.format("Проверка строки с параметрами %s", expectedProduct.toString()));
+                Assertions.assertFalse(productList.stream().anyMatch(
+                                (product) -> {
+                                    return product.getName().equals(expectedProduct.getName()) &&
+                                            product.getType().equals(expectedProduct.getTypeForAPI()) &&
+                                            product.getExotic().equals(expectedProduct.isExotic());
+                                })
+                        , String.format("Элемент %s не найден" , expectedProduct.toString()));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Step("Проверка добавления товара через JDBC")
     protected static void checkProductWithJDBC(String SelectSQL, Product expectedProduct) {
@@ -135,7 +172,6 @@ public class CheckAPIContext {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     @Step("Удаление через JDBC")
