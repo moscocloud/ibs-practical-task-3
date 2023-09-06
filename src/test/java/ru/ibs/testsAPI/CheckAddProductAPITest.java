@@ -18,7 +18,6 @@ public class CheckAddProductAPITest extends BaseTestAPI {
     @Tag("@ТС-004")
     @DisplayName("Проверка функционала добавления товаров через API")
     public void checkAddProduct() {
-
         List<ProductData> productsAfter = getProductList();
         checkThatTableHasNotProduct(productsAfter, MANGO);
 

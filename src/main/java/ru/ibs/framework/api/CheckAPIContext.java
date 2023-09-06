@@ -23,7 +23,6 @@ public class CheckAPIContext {
 
     protected static TestPropManager propManager = TestPropManager.getInstance();
     protected static JdbcConnectionPool connectionPool;
-
     /**
      * Метод отправляет запрос и возвращает лист продуктов
      *
@@ -43,8 +42,7 @@ public class CheckAPIContext {
                 .getList(".", ProductData.class);
     }
 
-    /**
-     * Метод отправляет пост запрос с телом product
+    /**Метод отправляет пост запрос с телом product
      *
      * @param product тело пост запроса
      */
@@ -64,7 +62,6 @@ public class CheckAPIContext {
                 .when()
                 .post("/api/data/reset");
     }
-
     /**
      * Метод проверяет конкректную строку с параметрами,
      * в таблице
@@ -86,25 +83,18 @@ public class CheckAPIContext {
                 "Наименование не найдено");
     }
 
-    /**
-     * Метод проверяет отсутствие продукта который хотим добавиться,
-     * в таблице
-     *
-     * @param productList     - полученная таблица
-     * @param expectedProduct - искомый продукт
-     */
-    @Step("Проверка строки с параметрами {expectedProduct}")
+    @Step("Проверка отсутствия строки с параметрами {expectedProduct}")
     protected static void checkThatTableHasNotProduct(List<ProductData> productList, Product expectedProduct) {
         log.info(String.format("Проверка отсутствия строки с параметрами %s", expectedProduct.toString()));
 
-        Assertions.assertFalse(productList.stream().anyMatch(
+        Assertions.assertTrue(productList.stream().noneMatch(
                         (product) -> {
                             return product.getName().equals(expectedProduct.getName()) &&
                                     product.getType().equals(expectedProduct.getTypeForAPI()) &&
                                     product.getExotic().equals(expectedProduct.isExotic());
                         }
                 ),
-                "Продукт найден");
+                "Продукт не найден");
         log.info(String.format("Строка %s в таблице не найдена", expectedProduct.toString()));
     }
 
@@ -166,5 +156,4 @@ public class CheckAPIContext {
         }
 
     }
-
 }
