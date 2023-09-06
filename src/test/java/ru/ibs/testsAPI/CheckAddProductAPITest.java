@@ -9,6 +9,7 @@ import ru.ibs.testsAPI.base.BaseTestAPI;
 import java.util.List;
 
 import static ru.ibs.framework.core.utils.Product.MANGO;
+import static ru.ibs.framework.core.utils.SQLQuery.DELETE_QUERY;
 import static ru.ibs.framework.core.utils.SQLQuery.SELECT_QUERY;
 
 public class CheckAddProductAPITest extends BaseTestAPI {
@@ -17,12 +18,18 @@ public class CheckAddProductAPITest extends BaseTestAPI {
     @Tag("@ТС-004")
     @DisplayName("Проверка функционала добавления товаров через API")
     public void checkAddProduct() {
-        sendPost(MANGO);
-        List<ProductData> products = getProductList();
-        checkingTableRows(products, MANGO);
-//      проверка добавления товара через jdbc
-        checkProductAndDeleteWithJDBC(SELECT_QUERY, MANGO);
 
-        resetDataBase();
+        List<ProductData> productsAfter = getProductList();
+        checkThatTableHasNotProduct(productsAfter, MANGO);
+
+        sendPost(MANGO);
+
+        List<ProductData> productsBefore = getProductList();
+        checkingTableRows(productsBefore, MANGO);
+
+//      проверка добавления товара через jdbc
+        checkProductWithJDBC(SELECT_QUERY, MANGO);
+
+        deleteWithJDBC(DELETE_QUERY);
     }
 }

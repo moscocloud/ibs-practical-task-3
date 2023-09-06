@@ -86,9 +86,31 @@ public class CheckAPIContext {
                 "Наименование не найдено");
     }
 
+    /**
+     * Метод проверяет отсутствие продукта который хотим добавиться,
+     * в таблице
+     *
+     * @param productList     - полученная таблица
+     * @param expectedProduct - искомый продукт
+     */
+    @Step("Проверка строки с параметрами {expectedProduct}")
+    protected static void checkThatTableHasNotProduct(List<ProductData> productList, Product expectedProduct) {
+        log.info(String.format("Проверка отсутствия строки с параметрами %s", expectedProduct.toString()));
+
+        Assertions.assertFalse(productList.stream().anyMatch(
+                        (product) -> {
+                            return product.getName().equals(expectedProduct.getName()) &&
+                                    product.getType().equals(expectedProduct.getTypeForAPI()) &&
+                                    product.getExotic().equals(expectedProduct.isExotic());
+                        }
+                ),
+                "Продукт найден");
+        log.info(String.format("Строка %s в таблице не найдена", expectedProduct.toString()));
+    }
+
 
     @Step("Проверка добавления товара через JDBC")
-    protected static void checkProductAndDeleteWithJDBC(String SelectSQL, Product expectedProduct) {
+    protected static void checkProductWithJDBC(String SelectSQL, Product expectedProduct) {
 
         List<ProductData> productList = new ArrayList<>();
 
@@ -126,8 +148,22 @@ public class CheckAPIContext {
 
     }
 
-    @Step("Удаление товара через JDBC")
-    protected static void checkProductAndDeleteWithJDBC() {
+    @Step("Удаление через JDBC")
+    protected static void deleteWithJDBC(String DeleteSQL) {
+
+        List<ProductData> productList = new ArrayList<>();
+
+        log.info("Установка соединения с базой данных...");
+        try (Connection connection = connectionPool.getConnection()) {
+
+            log.info("Отправляю запрос на удаление в базу данных...");
+            try (Statement statement = connection.createStatement()) {
+                statement.execute(DeleteSQL);
+                log.info("Строка удалена");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
